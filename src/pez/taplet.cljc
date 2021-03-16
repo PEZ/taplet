@@ -3,14 +3,13 @@
      (:require-macros [pez.taplet :refer [let>]])))
 
 (defmacro let>
-  "Like `let`, plus taps the binding box"
+  "Like `let`, plus `tap>`s the binding box"
   [bindings & body]
   (let [to-vec (fn [bindings]
-                 (let [b-names (flatten (partition 1 2 bindings))]
-                   (reduce (fn [to-tap b-name]
-                             (conj to-tap (keyword b-name) b-name))
-                           []
-                           b-names)))]
+                 (into []
+                       (mapcat (fn [b-name]
+                                 [(if (symbol? b-name) (keyword b-name) :-destruct-) b-name])
+                               (flatten (partition 1 2 bindings)))))]
     `(let ~(destructure bindings)
        (tap> ~(to-vec bindings))
        ~@body)))
