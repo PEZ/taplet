@@ -1,6 +1,6 @@
 (ns pez.taplet
   #?(:cljs
-     (:require-macros [pez.taplet :refer [let>]])))
+     (:require-macros [pez.taplet :refer [let> let>l]])))
 
 (defmacro let>l
   "Like `let>`, adding a label first in the tapped vector"
