@@ -14,13 +14,13 @@ Dependency:
 [pez/taplet "0.1.0-SNAPSHOT"]
 ```
 
-Require both macros:
+Require:
 
 ```clojure
 (require '[pez.taplet :refer [let> let>l]])
 ```
 
-Now use `let>` or `ley>l` wherever you have a `let` that you want to tap. From the tests:
+Now use `let>` or `let>l` wherever you have a `let` that you want to tap. From the tests:
 
 
 ```clojure
