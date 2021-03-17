@@ -8,16 +8,16 @@
   (assert (or (nil? label)
               (keyword? label))
           "`label` is not a keyword")
-  (let [to-vec (fn [bindings]
-                 (into (if label [label] [])
-                       (mapcat (fn [bind-to]
-                               [(if (symbol? bind-to)
-                                  (keyword bind-to)
-                                  (pr-str bind-to))
-                                bind-to])
-                             (flatten (partition 1 2 bindings)))))]
-    `(let ~(destructure bindings)
-       (tap> ~(to-vec bindings))
+  (let [bindings (destructure bindings)
+        symbolize (fn [sym] `(quote ~sym))
+        gensymed? (fn [sym] (re-matches #"(map|vec)__\d+" (name sym)))
+        taps (as-> bindings $
+               (map first (partition 2 $))
+               (map vector (map symbolize $) $)
+               (remove (fn [[_ s]] (gensymed? s)) $)
+               (into (if label [label] []) $))]
+    `(let [~@bindings]
+       (tap> ~taps)
        ~@body)))
 
 (defmacro let>
