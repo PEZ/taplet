@@ -1,44 +1,46 @@
 # taplet
 
-A Clojure/ClojureScript macro, named `let>` that works like `let`, and also will `tap>` the binding vector.
+A Clojure/ClojureScript macro, named `let>` that works like `let`, and also will `tap>` the binding box (that's what I call that vector).
+
+Bonus: A macro named `let>l` that works like `let>`, and also will put a label in the beginning of the tapped vector.
+
+**Pre-alpha**, do not put in production. Though only meant for development so as long as you don't put in production you should be safe. 😄
 
 ## Usage
 
-FIXME: write usage documentation!
+Dependency:
 
-Invoke a library API function from the command-line:
+```clojure
+[pez/taplet "0.1.0-SNAPSHOT"]
+```
 
-    $ clojure -X pez.taplet/foo :a 1 :b '"two"'
-    {:a 1, :b "two"} "Hello, World!"
+Require both macros:
 
-Run the project's tests (they'll fail until you edit them):
+```clojure
+(require '[pez.taplet :refer [let> let>l]])
+```
 
-    $ clojure -M:test:runner
+Now use `let>` or `ley>l` wherever you have a `let` that you want to tap. From the tests:
 
-Build a deployable jar of this library:
 
-    $ clojure -X:jar
-
-This will update the generated `pom.xml` file to keep the dependencies synchronized with
-your `deps.edn` file. You can update the version (and SCM tag) information in the `pom.xml` using the
-`:version` argument:
-
-    $ clojure -X:jar :version '"1.2.3"'
-
-Install it locally (requires the `pom.xml` file):
-
-    $ clojure -X:install
-
-Deploy it to Clojars -- needs `CLOJARS_USERNAME` and `CLOJARS_PASSWORD` environment
-variables (requires the `pom.xml` file):
-
-    $ clojure -X:deploy
-
-Your library will be deployed to net.clojars.pez/taplet on clojars.org by default.
-
-If you don't plan to install/deploy the library, you can remove the
-`pom.xml` file but you will also need to remove `:sync-pom true` from the `deps.edn`
-file (in the `:exec-args` for `depstar`).
+```clojure
+(testing "Taps all the things as expected"
+    (let [tapped (atom nil)
+          save-tap (fn [v] (reset! tapped v))]
+      (add-tap save-tap)
+      (is (= [1 2 {:z 2} :foo :bar :baz :gaz]
+           (sut/let> [x 1
+                      {:keys [z] :as y} {:z 2}
+                      [a [b {:keys [c d]}]] [:foo [:bar {:c :baz :d :gaz}]]]
+                     [x z y a b c d])))
+      (is (= [:x 1
+              "{:keys [z], :as y}" {:keys [2] :as {:z 2}}
+              :a :foo
+              :b :bar
+              "{:keys [c d]}" {:keys [:baz :gaz]}]
+             @tapped))
+      (remove-tap save-tap)))
+```
 
 ## License
 
