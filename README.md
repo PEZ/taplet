@@ -11,7 +11,7 @@ Bonus: A macro named `let>l` that works like `let>`, and also will put a label i
 Dependency:
 
 ```clojure
-[pez/taplet "0.1.0-SNAPSHOT"]
+[pez/taplet "0.1.1"]
 ```
 
 Require:
