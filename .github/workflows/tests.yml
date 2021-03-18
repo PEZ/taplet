@@ -9,7 +9,6 @@ on:
 jobs:
   cljc-test:
     runs-on: ubuntu-latest
-    needs: install-clojure
     steps:
     - uses: actions/checkout@v2.3.4
     - name: install graal
