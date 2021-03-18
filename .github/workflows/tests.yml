@@ -20,6 +20,11 @@ jobs:
    steps:
     - uses: actions/checkout@v2.3.4
     - uses: thonatos/github-actions-nodejs@v0.1.1
-    - uses: vouch-opensource/tools.deps-build@1.0.1
-    - name: cljs-tests
+    - uses: DeLaGuardo/setup-graalvm@2.0
+      with:
+        graalvm-version: '19.3.1.java11'
+    - uses: DeLaGuardo/setup-clojure@master
+      with:
+        cli: '1.10.3.814'
+      name: cljs-tests
       run: npx shadow-cljs compile :test 
