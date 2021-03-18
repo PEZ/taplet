@@ -8,12 +8,17 @@ on:
 
 jobs:
   clj-test:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2.3.4
-    - name: tools.deps-builder
+    - name: clj-tests
       uses: vouch-opensource/tools.deps-build@1.0.1
       with:
         alias: :test:runner
+  cljs-test:
+   runs-on: ubuntu-latest
+   steps:
+    - uses: actions/checkout@v2.3.4
+    - name: clj-tests
+      uses: thonatos/github-actions-nodejs@v0.1.1
+      run: npx shadow-cljs compile :test 
