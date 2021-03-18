@@ -1,6 +1,5 @@
 (ns pez.taplet
-  #?(:cljs
-     (:require-macros [pez.taplet :refer [let> let>l]])))
+  #?(:cljs (:require-macros [pez.taplet :refer [let> let>l]])))
 
 (defmacro let>l
   "Like `let>`, adding a label first in the tapped vector"
@@ -8,7 +7,10 @@
   (assert (or (nil? label)
               (keyword? label))
           "`label` is not a keyword")
-  (let [bindings (destructure bindings)
+  (let [destructure (if (:ns &env)
+                      cljs.core/destructure
+                      destructure)
+        bindings (destructure bindings)
         symbolize (fn [sym] `(quote ~sym))
         gensymed? (fn [sym] (re-matches #"(map|vec)__\d+" (name sym)))
         taps (as-> bindings $

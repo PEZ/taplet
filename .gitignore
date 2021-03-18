@@ -11,3 +11,6 @@
 .hg/
 .calva/output-window/
 .lsp/sqlite*.db
+node_modules/
+.shadow-cljs/
+cljs-out/
