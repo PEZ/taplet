@@ -1,0 +1,2 @@
+- name: tools.deps-builder
+  uses: vouch-opensource/tools.deps-build@1.0.1
