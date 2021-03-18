@@ -22,6 +22,6 @@ jobs:
       with:
         cli: '1.10.3.814'
     - name: clj-tests
-      run: clojure -X:test:runner
+      run: clojure -M:test:runner
     - name: cljs-tests
       run: npx shadow-cljs compile :test 
