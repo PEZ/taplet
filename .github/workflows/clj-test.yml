@@ -1,2 +1,17 @@
-- name: tools.deps-builder
-  uses: vouch-opensource/tools.deps-build@1.0.1
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  clj-test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2.3.4
+    - name: tools.deps-builder
+      uses: vouch-opensource/tools.deps-build@1.0.1
