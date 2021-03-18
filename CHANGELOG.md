@@ -2,6 +2,9 @@
 
 Changes to pez/taplet
 
+## [0.1.2] - 2021-03-17
+- Fix bug with map destructuring in CLJS
+
 ## [0.1.1] - 2021-03-17
 - [Handle map destructurings](https://clojureverse.org/t/lets-tap-with-let-a-k-a-my-first-macro-taplet/7361/5)
 
