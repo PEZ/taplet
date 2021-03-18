@@ -19,6 +19,6 @@ jobs:
    runs-on: ubuntu-latest
    steps:
     - uses: actions/checkout@v2.3.4
+    - uses: thonatos/github-actions-nodejs@v0.1.1
     - name: clj-tests
-      uses: thonatos/github-actions-nodejs@v0.1.1
       run: npx shadow-cljs compile :test 
