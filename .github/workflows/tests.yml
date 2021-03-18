@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  clj-test:
+  test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2.3.4
@@ -15,18 +15,6 @@ jobs:
       uses: vouch-opensource/tools.deps-build@1.0.1
       with:
         alias: :test:runner
-  cljs-test:
-   runs-on: ubuntu-latest
-   steps:
-    - uses: actions/checkout@v2.3.4
-    - name: install graal
-      uses: DeLaGuardo/setup-graalvm@2.0
-      with:
-        graalvm-version: '19.3.1.java11'
-    - name: install clojure
-      uses: DeLaGuardo/setup-clojure@master
-      with:
-        cli: '1.10.3.814'
     - name: install node
       uses: thonatos/github-actions-nodejs@v0.1.1
     - name: cljs-tests
