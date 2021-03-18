@@ -2,9 +2,8 @@
   (:require [clojure.test :refer [deftest testing is]]
             [pez.taplet :as sut]))
 
-(defn sync-fn [f] (f))
-(def ^:dynamic *dummy* nil)
-
+#?(:cljs (set! *exec-tap-fn* (fn [f] (f))))
+         
 (deftest let>
   (testing "Evaluates as `let`"
     (is (= [:foo :bar] (sut/let> [foo :foo
@@ -16,11 +15,9 @@
           save-tap (fn [v] (reset! tapped v))]
       (add-tap save-tap)
       (is (= [:foo :bar]
-             (binding [#?(:clj *dummy*
-                          :cljs *exec-tap-fn*) sync-fn]
-               (sut/let> [foo :foo
-                          bar :bar]
-                         [foo bar]))))
+             (sut/let> [foo :foo
+                        bar :bar]
+                       [foo bar])))
       (is (= '[[foo :foo]
                [bar :bar]]
              @tapped))
@@ -31,10 +28,8 @@
           save-tap (fn [v] (reset! tapped v))]
       (add-tap save-tap)
       (is (= [:foo :bar :baz :gaz]
-             (binding [#?(:clj *dummy*
-                          :cljs *exec-tap-fn*) sync-fn]
-               (sut/let> [[a [b [c d]]] [:foo [:bar [:baz :gaz]]]]
-                         [a b c d]))))
+             (sut/let> [[a [b [c d]]] [:foo [:bar [:baz :gaz]]]]
+                       [a b c d])))
       (is (= '[[a :foo]
                [b :bar]
                [c :baz]
@@ -47,10 +42,8 @@
           save-tap (fn [v] (reset! tapped v))]
       (add-tap save-tap)
       (is (= [2 {:x 2}]
-             (binding [#?(:clj *dummy*
-                          :cljs *exec-tap-fn*) sync-fn]
-               (sut/let> [{:keys [x] :as y} {:x 2}]
-                         [x y]))))
+             (sut/let> [{:keys [x] :as y} {:x 2}]
+                       [x y])))
       (is (= '[[y
                 {:x 2}]
                [x 2]]
@@ -62,12 +55,10 @@
           save-tap (fn [v] (reset! tapped v))]
       (add-tap save-tap)
       (is (= [1 2 {:z 2} :foo :bar :baz :gaz]
-             (binding [#?(:clj *dummy*
-                          :cljs *exec-tap-fn*) sync-fn]
-               (sut/let> [x 1
-                          {:keys [z] :as y} {:z 2}
-                          [a [b {:keys [c d]}]] [:foo [:bar {:c :baz :d :gaz}]]]
-                         [x z y a b c d]))))
+             (sut/let> [x 1
+                        {:keys [z] :as y} {:z 2}
+                        [a [b {:keys [c d]}]] [:foo [:bar {:c :baz :d :gaz}]]]
+                       [x z y a b c d])))
       (is (= '[[x 1]
                [y
                 {:z 2}]
@@ -85,12 +76,10 @@
           save-tap (fn [v] (reset! tapped v))]
       (add-tap save-tap)
       (is (= [:foo :bar]
-             (binding [#?(:clj *dummy*
-                          :cljs *exec-tap-fn*) sync-fn]
-               (sut/let>l :label
-                          [foo :foo
-                           bar :bar]
-                          [foo bar]))))
+             (sut/let>l :label
+                        [foo :foo
+                         bar :bar]
+                        [foo bar])))
       (is (= '[:label
                [foo :foo]
                [bar :bar]]
