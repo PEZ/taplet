@@ -7,15 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  clj-test:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2.3.4
-    - name: clj-tests
-      uses: vouch-opensource/tools.deps-build@1.0.1
-      with:
-        alias: :test:runner
-  cljc-test:
+  install-clojure:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2.3.4
@@ -29,7 +21,15 @@ jobs:
       uses: DeLaGuardo/setup-clojure@master
       with:
         cli: '1.10.3.814'
+  clj-test:
+    runs-on: ubuntu-latest
+    needs: install-clojure
+    steps:
     - name: clj-tests
       run: clojure -X:test:runner
+  cljs-test:
+    runs-on: ubuntu-latest
+    needs: install-clojure
+    steps:
     - name: cljs-tests
       run: npx shadow-cljs compile :test 
