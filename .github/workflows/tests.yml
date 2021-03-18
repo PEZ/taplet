@@ -25,11 +25,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: install-clojure
     steps:
+    - uses: actions/checkout@v2.3.4
     - name: clj-tests
       run: clojure -X:test:runner
   cljs-test:
     runs-on: ubuntu-latest
     needs: install-clojure
     steps:
+    - uses: actions/checkout@v2.3.4
     - name: cljs-tests
       run: npx shadow-cljs compile :test 
