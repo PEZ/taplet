@@ -1,4 +1,5 @@
 (ns pez.taplet
+  (:require cljs.core)
   #?(:cljs (:require-macros [pez.taplet :refer [let> let>l]])))
 
 (defmacro let>l
