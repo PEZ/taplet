@@ -1,0 +1,26 @@
+{
+  "name": "taplet",
+  "version": "0.0.1",
+  "description": "shadow-cljs scaffold",
+  "main": "cljs-out/node-tests.js",
+  "directories": {
+    "doc": "doc",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PEZ/taplet.git"
+  },
+  "author": "PEZ",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PEZ/taplet/issues"
+  },
+  "homepage": "https://github.com/PEZ/taplet#readme",
+  "devDependencies": {
+    "shadow-cljs": "^2.11.23"
+  }
+}
