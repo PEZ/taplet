@@ -9,7 +9,7 @@
 (def ^:private  save-tap (fn [v] (a/offer! tapped v)))
 (defn- read-tapped [] (a/poll! tapped))
 
-(defn fixture [f]
+(defn- fixture [f]
   (add-tap save-tap)
   (f)
   (remove-tap save-tap))
