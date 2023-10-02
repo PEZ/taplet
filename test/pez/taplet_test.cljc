@@ -28,8 +28,8 @@
                       bar :bar]
                      [foo bar])))
     #?(:clj (a/<!! (a/timeout 1)))
-    (is (= '[[foo :foo]
-             [bar :bar]]
+    (is (= '[foo :foo
+             bar :bar]
            (read-tapped))))
 
   (testing "Handles vector destructuring"
@@ -37,10 +37,10 @@
            (sut/let> [[a [b [c d]]] [:foo [:bar [:baz :gaz]]]]
                      [a b c d])))
     #?(:clj (a/<!! (a/timeout 1)))
-    (is (= '[[a :foo]
-             [b :bar]
-             [c :baz]
-             [d :gaz]]
+    (is (= '[a :foo
+             b :bar
+             c :baz
+             d :gaz]
            (read-tapped))))
 
   (testing "Handles map destructuring"
@@ -48,9 +48,9 @@
            (sut/let> [{:keys [x] :as y} {:x 2}]
                      [x y])))
     #?(:clj (a/<!! (a/timeout 1)))
-    (is (= '[[y
-              {:x 2}]
-             [x 2]]
+    (is (= '[y
+             {:x 2}
+             x 2]
            (read-tapped))))
 
   (testing "Taps all the things as expected"
@@ -60,14 +60,14 @@
                       [a [b {:keys [c d]}]] [:foo [:bar {:c :baz :d :gaz}]]]
                      [x z y a b c d])))
     #?(:clj (a/<!! (a/timeout 1)))
-    (is (= '[[x 1]
-             [y
-              {:z 2}]
-             [z 2]
-             [a :foo]
-             [b :bar]
-             [c :baz]
-             [d :gaz]]
+    (is (= '[x 1
+             y
+             {:z 2}
+             z 2
+             a :foo
+             b :bar
+             c :baz
+             d :gaz]
            (read-tapped))))
   (testing "Labels the taps from metadata"
     (is (= [:foo :bar]
@@ -77,12 +77,12 @@
                       [foo bar])))
     #?(:clj (a/<!! (a/timeout 1)))
     (is (= '[:label
-             [foo :foo]
-             [bar :bar]]
+             foo :foo
+             bar :bar]
            (read-tapped)))))
 
 (deftest let>l
-  (testing "Taps the binding box with the label first"
+  (testing "Taps the binding box with the label first (even though deprecated)"
     (is (= [:foo :bar]
            (sut/let>l :label
                       [foo :foo
@@ -90,6 +90,6 @@
                       [foo bar])))
     #?(:clj (a/<!! (a/timeout 1)))
     (is (= '[:label
-             [foo :foo]
-             [bar :bar]]
+             foo :foo
+             bar :bar]
            (read-tapped)))))
