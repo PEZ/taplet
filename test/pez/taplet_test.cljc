@@ -68,6 +68,17 @@
              [b :bar]
              [c :baz]
              [d :gaz]]
+           (read-tapped))))
+  (testing "Labels the taps from metadata"
+    (is (= [:foo :bar]
+           (sut/let>  ^{:tap> :label}
+                      [foo :foo
+                       bar :bar]
+                      [foo bar])))
+    #?(:clj (a/<!! (a/timeout 1)))
+    (is (= '[:label
+             [foo :foo]
+             [bar :bar]]
            (read-tapped)))))
 
 (deftest let>l
