@@ -1,0 +1,1 @@
+{:lint-as {pez.taplet/let> clojure.core/let}}
