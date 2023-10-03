@@ -1,1 +1,1 @@
-{:indents {#re "^let>" [[:inner 0] [[:inner 0]]]}}
+{:extra-indents {let> [[:inner 0] [:inner 0]]}}
