@@ -1,20 +1,25 @@
-(ns pez.taplet
-  #?(:cljs (:require-macros [pez.taplet :refer [let> let>l]])))
+;; This is a `.cljc` file for the convenience of exercising the
+;; Rich comment forms in either the ClojureScript or the Clojure REPL
+;; (Calva makes this very convenient)
 
-(defn- ->taps
-  [label bindings destructure]
-  (assert (vector? bindings)
-          "`bindings` is not a vector")
-  (let [bindings (destructure bindings)
-        symbolize (fn [sym] `(quote ~sym))
-        gensymed? (fn [sym] (re-matches #"(map|vec)__\d+" (name sym)))
-        taps (as-> bindings $
-                   (map first (partition 2 $))
-                   (map vector (map symbolize $) $)
-                   (remove (fn [[_ s]] (gensymed? s)) $)
-                   (apply concat $)
-                   (into (if label [label] []) $))]
-    taps))
+(ns pez.taplet
+    #?(:cljs (:require-macros [pez.taplet :refer [let> let>l]])))
+
+#?(:clj
+   (defn- ->taps
+     [label bindings]
+     (assert (vector? bindings)
+             "`bindings` is not a vector")
+     (let [bindings (destructure bindings)
+           symbolize (fn [sym] `(quote ~sym))
+           gensymed? (fn [sym] (re-matches #"(map|vec)__\d+" (name sym)))
+           taps (as-> bindings $
+                  (map first (partition 2 $))
+                  (map vector (map symbolize $) $)
+                  (remove (fn [[_ s]] (gensymed? s)) $)
+                  (apply concat $)
+                  (into (if label [label] []) $))]
+       taps)))
 
 (defmacro let>l
   "DEPRECATED Use metadata `^{:tap> ...} bindings` instead.
@@ -25,8 +30,7 @@
   (assert (or (nil? label)
               (keyword? label))
           "`label` is not a keyword")
-  (let [taps (->taps label bindings #?(:cljs cljs.core/destructure
-                                       :clj destructure))]
+  (let [taps (->taps label bindings)]
     `(let [~@bindings]
        (tap> ~taps)
        ~@body)))
@@ -38,8 +42,7 @@
    the first item in the tapped vector."
   [bindings & body]
   (let [label (:tap> (meta bindings))
-        taps (->taps label bindings #?(:cljs cljs.core/destructure
-                                       :clj destructure))]
+        taps (->taps label bindings)]
     `(let [~@bindings]
        (tap> ~taps)
        ~@body)))

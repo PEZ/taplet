@@ -84,6 +84,7 @@
 (deftest let>l
   (testing "Taps the binding box with the label first (even though deprecated)"
     (is (= [:foo :bar]
+           #_{:clj-kondo/ignore [:unresolved-symbol :deprecated-var]}
            (sut/let>l :label
                       [foo :foo
                        bar :bar]
