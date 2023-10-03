@@ -1,4 +1,4 @@
-(ns etc)
+(ns etc.rcf-example)
 
 (comment
  (require '[pez.taplet :refer [let>]])
