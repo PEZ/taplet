@@ -7,7 +7,7 @@
 
 #?(:clj
    (defn- ->taps
-     [label bindings]
+     [label bindings destructure]
      (assert (vector? bindings)
              "`bindings` is not a vector")
      (let [bindings (destructure bindings)
@@ -21,32 +21,41 @@
                   (into (if label [label] []) $))]
        taps)))
 
-(defmacro let>l
-  "DEPRECATED Use metadata `^{:tap> ...} bindings` instead.
+#?(:clj
+   (defmacro let>l
+     "DEPRECATED Use metadata `^{:tap> ...} bindings` instead.
 
-   Like `let>`, adding a label first in the tapped vector."
-  {:deprecated "1.0.0"}
-  [label bindings & body]
-  (assert (or (nil? label)
-              (keyword? label))
-          "`label` is not a keyword")
-  (let [taps (->taps label bindings)]
-    `(let [~@bindings]
-       (tap> ~taps)
-       ~@body)))
+     Like `let>`, adding a label first in the tapped vector."
+     {:deprecated "1.0.0"}
+     [label bindings & body]
+     (assert (or (nil? label)
+                 (keyword? label))
+             "`label` is not a keyword")
+     (let [taps (->taps label bindings #_{:clj-kondo/ignore [:unresolved-namespace]}
+                                       (if (:ns &env)
+                                         cljs.core/destructure
+                                         destructure))]
+       `(let [~@bindings]
+          (tap> ~taps)
+          ~@body))))
 
-(defmacro let>
-  "Like `let`, plus `tap>`s the binding box (vector)
+#?(:clj
+   (defmacro let>
+     "Like `let`, plus `tap>`s the binding box (vector)
 
-   Will add anything in the `:tap>` key of the metadata of `bindings` as
-   the first item in the tapped vector."
-  [bindings & body]
-  (let [label (:tap> (meta bindings))
-        taps (->taps label bindings)]
-    `(let [~@bindings]
-       (tap> ~taps)
-       ~@body)))
+     Will add anything in the `:tap>` key of the metadata of `bindings` as
+     the first item in the tapped vector."
+     [bindings & body]
+     (let [label (:tap> (meta bindings))
+           taps (->taps label bindings #_{:clj-kondo/ignore [:unresolved-namespace]}
+                                       (if (:ns &env)
+                                         cljs.core/destructure
+                                         destructure))]
+       `(let [~@bindings]
+          (tap> ~taps)
+          ~@body))))
 
+#_{:clj-kondo/ignore [:unresolved-symbol]}
 (comment
  (add-tap (partial println "tap>")) ;; Only for observability here
 
