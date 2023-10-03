@@ -7,11 +7,11 @@ A Clojure/ClojureScript macro, named `let>` that works like `let`, and also will
 Dependency:
 
 ```clojure
-{:deps {pez/taplet {:mvn/version "0.1.3}}}
+{:deps {pez/taplet {:mvn/version "1.0.0}}}
 ```
 
 ```clojure
-[pez/taplet "0.1.3"]
+[pez/taplet "1.0.0"]
 ```
 
 Require:
@@ -28,15 +28,15 @@ Now use `let>` wherever you have a `let` that you want to tap. Optionally label 
 
  (let> [x 1
         y 2
-        coords {:x 1 :y 2}]
+        coords {:x x :y y}]
    coords) ;; => {:x 1, :y 2}
            ;; tap> [x 1 y 2 coords {:x 1, :y 2}]
 
  (let> ^{:tap> :labeled-taps} [x 1
                                y 2
-                               coords {:x 1 :y 2}]
+                               coords {:x x :y y}]
    coords) ;; => {:x 1, :y 2}
-            ;; tap> [:labeled-taps x 1 y 2 coords {:x 1, :y 2}]
+           ;; tap> [:labeled-taps x 1 y 2 coords {:x 1, :y 2}]
 
  (let> [x 1
         {:keys [z] :as y} {:z 2}

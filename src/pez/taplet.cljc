@@ -3,13 +3,10 @@
   #?(:cljs (:require-macros [pez.taplet :refer [let> let>l]])))
 
 (defn- ->taps
-  [label bindings ns-env?]
+  [label bindings destructure]
   (assert (vector? bindings)
           "`bindings` is not a vector")
-  (let [destructure (if ns-env?
-                      cljs.core/destructure
-                      destructure)
-        bindings (destructure bindings)
+  (let [bindings (destructure bindings)
         symbolize (fn [sym] `(quote ~sym))
         gensymed? (fn [sym] (re-matches #"(map|vec)__\d+" (name sym)))
         taps (as-> bindings $
@@ -24,12 +21,13 @@
   "DEPRECATED Use metadata `^{:tap> ...} bindings` instead.
 
    Like `let>`, adding a label first in the tapped vector."
-  {:deprecated "0.1.3"}
+  {:deprecated "1.0.0"}
   [label bindings & body]
   (assert (or (nil? label)
               (keyword? label))
           "`label` is not a keyword")
-  (let [taps (->taps label bindings (:ns &env))]
+  (let [taps (->taps label bindings #?(:cljs cljs.core/destructure
+                                       :clj destructure))]
     `(let [~@bindings]
        (tap> ~taps)
        ~@body)))
@@ -41,7 +39,8 @@
    the first item in the tapped vector."
   [bindings & body]
   (let [label (:tap> (meta bindings))
-        taps (->taps label bindings (:ns &env))]
+        taps (->taps label bindings #?(:cljs cljs.core/destructure
+                                       :clj destructure))]
     `(let [~@bindings]
        (tap> ~taps)
        ~@body)))
@@ -51,15 +50,15 @@
 
  (let> [x 1
         y 2
-        coords {:x 1 :y 2}]
+        coords {:x x :y y}]
    coords) ;; => {:x 1, :y 2}
            ;; tap> [x 1 y 2 coords {:x 1, :y 2}]
 
  (let> ^{:tap> :labeled-taps} [x 1
                                y 2
-                               coords {:x 1 :y 2}]
+                               coords {:x x :y y}]
    coords) ;; => {:x 1, :y 2}
-            ;; tap> [:labeled-taps x 1 y 2 coords {:x 1, :y 2}]
+           ;; tap> [:labeled-taps x 1 y 2 coords {:x 1, :y 2}]
 
  (let> [x 1
         {:keys [z] :as y} {:z 2}
