@@ -1,26 +1,7 @@
-# taplet
+(ns etc)
 
-A Clojure/ClojureScript macro, named `let>` that works like `let`, and also will `tap>` the let box (that's what I call that bininding vector).
-
-## Usage
-
-Dependency
-
-
-``` clojure
-;; deps.edn
-{pez/taplet {:mvn/version "1.0.0"}}
-
-;; Leiningen
-[pez/taplet "1.0.0"]
-```
-
-Use `let>` wherever you have a `let` that you want to tap. Optionally label the taps using `{:tap> :some-label}` as metadata for the binding vector.
-
-```clojure
 (comment
  (require '[pez.taplet :refer [let>]])
-
  (add-tap (partial println "tap>")) ;; Only for observability here
 
  (let> [x 1
@@ -42,9 +23,3 @@ Use `let>` wherever you have a `let` that you want to tap. Optionally label the 
                     ;; tap> [x 1 y {:z 2} z 2 a :foo b :bar c :baz d :gaz]
 
  :rcf)
-```
-
-## License
-
-MIT License, see LICENSE file
-
