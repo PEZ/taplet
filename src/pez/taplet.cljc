@@ -23,7 +23,7 @@
 
 #?(:clj
    (defmacro let>l
-     "DEPRECATED Use metadata `^{:tap> ...} bindings` instead.
+     "DEPRECATED Use metadata `^{:let> ...} bindings` instead.
 
      Like `let>`, adding a label first in the tapped vector."
      {:deprecated "1.0.0"}
@@ -41,12 +41,20 @@
 
 #?(:clj
    (defmacro let>
-     "Like `let`, plus `tap>`s the binding box (vector)
+     "Like `let`, plus `let>`s the binding box (vector)
 
-     Will add anything in the `:tap>` key of the metadata of `bindings` as
-     the first item in the tapped vector."
+     Will add anything in the `:let>` key of the metadata of `bindings` as
+     the first item in the tapped vector. Example:
+
+     ``` clojure
+     (let> ^{:let> :labeled-taps} [x 1
+                                   y 2
+                                   coords {:x x :y y}]
+       coords) ;; => {:x 1, :y 2}
+               ;; let> [:labeled-taps x 1 y 2 coords {:x 1, :y 2}]
+     ```"
      [bindings & body]
-     (let [label (:tap> (meta bindings))
+     (let [label (:let> (meta bindings))
            taps (->taps label bindings #_{:clj-kondo/ignore [:unresolved-namespace]}
                                        (if (:ns &env)
                                          cljs.core/destructure
@@ -57,25 +65,25 @@
 
 #_{:clj-kondo/ignore [:unresolved-symbol]}
 (comment
- (add-tap (partial println "tap>")) ;; Only for observability here
+  (add-tap (partial println "tap>")) ;; Only for observability here
 
- (let> [x 1
-        y 2
-        coords {:x x :y y}]
-   coords) ;; => {:x 1, :y 2}
+  (let> [x 1
+         y 2
+         coords {:x x :y y}]
+    coords) ;; => {:x 1, :y 2}
            ;; tap> [x 1 y 2 coords {:x 1, :y 2}]
 
- (let> ^{:tap> :labeled-taps} [x 1
-                               y 2
-                               coords {:x x :y y}]
-   coords) ;; => {:x 1, :y 2}
+  (let> ^{:let> :labeled-taps} [x 1
+                                y 2
+                                coords {:x x :y y}]
+    coords) ;; => {:x 1, :y 2}
            ;; tap> [:labeled-taps x 1 y 2 coords {:x 1, :y 2}]
 
- (let> [x 1
-        {:keys [z] :as y} {:z 2}
-        [a [b {:keys [c d]}]] [:foo [:bar {:c :baz :d :gaz}]]]
-   [x z y a b c d]) ;; => [1 2 {:z 2} :foo :bar :baz :gaz]
+  (let> [x 1
+         {:keys [z] :as y} {:z 2}
+         [a [b {:keys [c d]}]] [:foo [:bar {:c :baz :d :gaz}]]]
+    [x z y a b c d]) ;; => [1 2 {:z 2} :foo :bar :baz :gaz]
                     ;; tap> [x 1 y {:z 2} z 2 a :foo b :bar c :baz d :gaz]
 
- :rcf)
+  :rcf)
 

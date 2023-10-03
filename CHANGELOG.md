@@ -4,7 +4,7 @@ Changes to pez/taplet
 
 ## [1.0.0] - 2023-10-13
 
-- Support labeling taps from metadata 
+- Support labeling taps from metadata (using `:let> <some-label>`)
 - Unwrap the inner vectors in the taps (now they look more like binding vectors)
 
 ## [0.1.2] - 2021-03-17

@@ -71,7 +71,7 @@
            (read-tapped))))
   (testing "Labels the taps from metadata"
     (is (= [:foo :bar]
-           (sut/let>  ^{:tap> :label}
+           (sut/let>  ^{:let> :label}
                       [foo :foo
                        bar :bar]
                       [foo bar])))
