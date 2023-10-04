@@ -14,4 +14,4 @@
 node_modules/
 .shadow-cljs/
 cljs-out/
-taplet-1.0.53.pom.asc
+*.pom.asc
