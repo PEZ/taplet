@@ -9,16 +9,18 @@ Dependency
 
 ``` clojure
 ;; deps.edn
-{pez/taplet {:mvn/version "1.0.53"}}
+{pez/taplet {:mvn/version "1.0.58"}}
 
 ;; Leiningen
-[pez/taplet "1.0.53"]
+[pez/taplet "1.0.58"]
 ```
 
 Use `let>` wherever you have a `let` that you want to tap. Optionally label the taps using `{:let> :some-label}` as metadata for the binding vector.
 
 ```clojure
 (comment
+  (require '[pez.taplet :refer [let>]])
+
   (add-tap (partial println "tap>")) ;; Only for observability here
 
   (let> [x 1

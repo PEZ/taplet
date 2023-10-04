@@ -2,7 +2,11 @@
 
 Changes to pez/taplet
 
-## [1.0.53] - 2023-10-13
+## [1.0.58] - 2023-10-04
+
+- Fix non-cljs projects `cljs.core` require crash
+
+## [1.0.53] - 2023-10-04
 
 - Support labeling taps from metadata (using `:let> <some-label>`)
 - Unwrap the inner vectors in the taps (now they look more like binding vectors)

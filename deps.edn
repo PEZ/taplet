@@ -6,10 +6,10 @@
           :exec-fn deps-deploy.deps-deploy/deploy
           :exec-args {:installer :remote
                       :sign-releases? true
-                      :artifact "target/taplet-1.0.53.jar"}}
+                      :artifact "target/taplet-1.0.58.jar"}}
  :install {:extra-deps {slipset/deps-deploy {:mvn/version "RELEASE"}}
            :exec-args {:installer :local
-                       :artifact "target/taplet-1.0.53.jar"}}
+                       :artifact "target/taplet-1.0.58.jar"}}
  :test {:extra-paths ["test"]
         :extra-deps {org.clojure/core.async {:mvn/version "1.6.681"}
                      org.clojure/test.check {:mvn/version "1.1.1"}
