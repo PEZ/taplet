@@ -1,8 +1,18 @@
 {:paths ["src" "resources"]
  :aliases
- {:test {:extra-paths ["test"]
-         :extra-deps {org.clojure/core.async {:mvn/version "1.6.681"}
-                      org.clojure/test.check {:mvn/version "1.1.1"}
-                      io.github.cognitect-labs/test-runner
-                      {:git/tag "v0.5.0" :git/sha "48c3c67"}
-                      thheller/shadow-cljs {:mvn/version "2.25.8"}}}}}
+ {:build {:deps {io.github.clojure/tools.build {:mvn/version "0.9.5"}}
+          :ns-default build}
+ :deploy {:extra-deps {slipset/deps-deploy {:mvn/version "RELEASE"}}
+          :exec-fn deps-deploy.deps-deploy/deploy
+          :exec-args {:installer :remote
+                      :sign-releases? true
+                      :artifact "target/taplet-1.0.53.jar"}}
+ :install {:extra-deps {slipset/deps-deploy {:mvn/version "RELEASE"}}
+           :exec-args {:installer :local
+                       :artifact "taplet-1.0.53cccc.jar"}}
+ :test {:extra-paths ["test"]
+        :extra-deps {org.clojure/core.async {:mvn/version "1.6.681"}
+                     org.clojure/test.check {:mvn/version "1.1.1"}
+                     io.github.cognitect-labs/test-runner
+                     {:git/tag "v0.5.0" :git/sha "48c3c67"}
+                     thheller/shadow-cljs {:mvn/version "2.25.8"}}}}}
