@@ -26,7 +26,7 @@
      "DEPRECATED Use metadata `^{:let> ...} bindings` instead.
 
      Like `let>`, adding a label first in the tapped vector."
-     {:deprecated "1.0.0"}
+     {:deprecated "1.0.53"}
      [label bindings & body]
      (assert (or (nil? label)
                  (keyword? label))
