@@ -33,7 +33,7 @@
              "`label` is not a keyword")
      (let [taps (->taps label bindings #_{:clj-kondo/ignore [:unresolved-namespace]}
                                        (if (:ns &env)
-                                         cljs.core/destructure
+                                         (requiring-resolve 'cljs.core/destructure)
                                          destructure))]
        `(let [~@bindings]
           (tap> ~taps)
@@ -57,7 +57,7 @@
      (let [label (:let> (meta bindings))
            taps (->taps label bindings #_{:clj-kondo/ignore [:unresolved-namespace]}
                                        (if (:ns &env)
-                                         cljs.core/destructure
+                                         (requiring-resolve 'cljs.core/destructure)
                                          destructure))]
        `(let [~@bindings]
           (tap> ~taps)

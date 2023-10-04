@@ -1,6 +1,7 @@
 (ns etc.rcf-example)
 
 (comment
+  (require '[pez.taplet :refer [let>]])
   (add-tap (partial println "tap>")) ;; Only for observability here
 
   (let> [x 1
