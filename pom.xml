@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>pez</groupId>
   <artifactId>taplet</artifactId>
-  <version>1.0.58</version>
+  <version>1.0.62</version>
   <name>pez/taplet</name>
   <description>A Clojure/ClojureScript macro that works like `let`, and also will tap the binding vector.</description>
   <url>https://github.com/PEZ/taplet</url>
@@ -22,7 +22,7 @@
     <url>https://github.com/PEZ/taplet</url>
     <connection>scm:git:git://github.com/PEZ/taplet.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/PEZ/taplet.git</developerConnection>
-    <tag>v1.0.58</tag>
+    <tag>v1.0.62</tag>
   </scm>
   <dependencies>
   </dependencies>

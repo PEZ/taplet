@@ -2,6 +2,10 @@
 
 Changes to pez/taplet
 
+## [1.0.62] - 2023-10-04
+
+- Add `#t` reader tag
+
 ## [1.0.58] - 2023-10-04
 
 - Fix non-cljs projects `cljs.core` require crash

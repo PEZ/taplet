@@ -12,10 +12,10 @@ Dependency
 
 ``` clojure
 ;; deps.edn
-{pez/taplet {:mvn/version "1.0.58"}}
+{pez/taplet {:mvn/version "1.0.62"}}
 
 ;; Leiningen
-[pez/taplet "1.0.58"]
+[pez/taplet "1.0.62"]
 ```
 
 ## let>
@@ -51,8 +51,15 @@ Use `let>` wherever you have a `let` that you want to tap. Optionally label the 
 
 ## #t
 
+To tap any value, prepend it with `#t`. You'll need to “install” the reader tag once per
+REPL session. If you plan to leave `#t` in the code (or plan to sometimes forget to
+remove it), you could consider adding it to a file that is always loaded early in app
+the app start. (E.g. The topmost level namespace.)
+
 ``` clojure
 (comment
+  (require '[pez.hasht]) ;; Only needed to be done once per REPL session
+
   (add-tap (partial println "tap>")) ;; Only for observability here
 
   #t (let [x 1
